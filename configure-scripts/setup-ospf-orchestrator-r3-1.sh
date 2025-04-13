@@ -8,4 +8,5 @@ vtysh -c 'configure terminal' \
   -c 'network 10.0.15.0/24 area 0.0.0.0' \
   -c 'network 10.0.17.0/24 area 0.0.0.0' \
   -c 'network 10.0.19.0/24 area 0.0.0.0' \
-  -c 'exit' -c 'write memory'
+  -c 'exit'
+vtysh -c 'write memory'
