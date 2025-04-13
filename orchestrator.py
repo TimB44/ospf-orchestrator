@@ -51,8 +51,18 @@ def stop(_):
 
 def route(args):
     dir = args.direction
-    print(f"router = {dir}")
-    pass
+    if dir == "north":
+        inc_proc = run_docker_cmd(R2_NAME, ["./configure-scripts/increase-cost.sh"])
+        dec_proc = run_docker_cmd(R4_NAME, ["./configure-scripts/decrease-cost.sh"])
+        inc_proc.wait()
+        dec_proc.wait()
+    else:
+        assert dir == "south"
+        inc_proc = run_docker_cmd(R4_NAME, ["./configure-scripts/increase-cost.sh"])
+        dec_proc = run_docker_cmd(R2_NAME, ["./configure-scripts/decrease-cost.sh"])
+        inc_proc.wait()
+        dec_proc.wait()
+
 
 
 # MAIN ------------------------
