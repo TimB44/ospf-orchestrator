@@ -1,3 +1,5 @@
+#!/bin/bash
+
 apt -y install curl
 apt -y install gnupg
 curl -s https://deb.frrouting.org/frr/keys.gpg | \
