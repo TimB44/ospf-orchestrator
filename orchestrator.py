@@ -14,14 +14,14 @@ HOST_NAMES = [HA_NAME, HB_NAME]
 
 
 def start(_):
-    print("start")
-    proc = subprocess.Popen(["docker", "compose", "up"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
+    print("Creating docker network")
+    proc = subprocess.Popen(["docker", "compose", "up", "-d"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
     proc.wait()
 
 
 # Starts a docker command and returns the process 
 def run_docker_cmd(container_name: str, cmd: list[str]) -> subprocess.Popen:
-    proc = subprocess.Popen(["docker", "exec", "-it", container_name] + cmd, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
+    proc = subprocess.Popen(["docker", "exec", container_name] + cmd, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
     return proc
     
 def configure(_):
@@ -43,7 +43,7 @@ def configure(_):
 
 
 def stop(_):
-    print("stop")
+    print("Taking down docker network")
     proc = subprocess.Popen(["docker", "compose", "down"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
     proc.wait()
 
