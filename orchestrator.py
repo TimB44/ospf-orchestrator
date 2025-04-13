@@ -1,3 +1,13 @@
+# PA3 OSPF Network Orchestrator
+#
+# This program serves as a simple network orchestrator capable of 
+# creating, configuring and routing a network. Its main goal is
+# to allow you to move traffic between 2 routes while keeping 0% 
+# packet loss. 
+#
+# Author: Timothy Blamires
+# Date: 4/13/2025
+
 import argparse
 import subprocess
 import sys
@@ -78,10 +88,10 @@ parser = argparse.ArgumentParser(
 subparsers = parser.add_subparsers(dest="command", required=True)
 
 parser_start = subparsers.add_parser(
-    "start", help="Start all docker containers")
+    "start", help="Start docker containers")
 parser_start.set_defaults(func=start)
 
-parser_conf = subparsers.add_parser("configure", help="Configure network")
+parser_conf = subparsers.add_parser("configure", help="Configure network (takes a long time). Routes the packets north initially")
 parser_conf.set_defaults(func=configure)
 
 parser_stop = subparsers.add_parser("stop", help="Stop all docker containers")
@@ -89,7 +99,7 @@ parser_stop.set_defaults(func=stop)
 
 parser_route = subparsers.add_parser("route", help="Route traffic")
 parser_route.add_argument("direction", choices=[
-                         "north", "south"], help="Choose router path")
+                         "north", "south"], help="Move traffic between north and south route")
 parser_route.set_defaults(func=route)
 
 args = parser.parse_args()
