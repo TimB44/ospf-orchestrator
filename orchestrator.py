@@ -2,18 +2,47 @@ import argparse
 import subprocess
 import sys
 
-def start(args):
+R1_NAME = "ospf-orchestrator-r1-1"
+R2_NAME = "ospf-orchestrator-r2-1"
+R3_NAME = "ospf-orchestrator-r3-1"
+R4_NAME = "ospf-orchestrator-r4-1"
+HA_NAME = "ospf-orchestrator-ha-1"
+HB_NAME = "ospf-orchestrator-hb-1"
+
+ROUTER_NAMES = [R1_NAME, R2_NAME, R3_NAME, R4_NAME]
+HOST_NAMES = [HA_NAME, HB_NAME]
+
+
+def start(_):
     print("start")
     proc = subprocess.Popen(["docker", "compose", "up"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
     proc.wait()
 
 
-def configure(args):
-    print("conf")
-    pass
+# Starts a docker command and returns the process 
+def run_docker_cmd(container_name: str, cmd: list[str]) -> subprocess.Popen:
+    proc = subprocess.Popen(["docker", "exec", "-it", container_name] + cmd, stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
+    return proc
+    
+def configure(_):
+    print("Downloading ffr on routers")
+    procs = [run_docker_cmd(r, ["./configure-scripts/ffrospf.sh"]) for r in ROUTER_NAMES]
+    for proc in  procs:
+        proc.wait();
 
 
-def stop(args):
+    print("Configuring ospf on routers")
+    procs = [run_docker_cmd(r, [f"./configure-scripts/setup-{r}.sh"]) for r in ROUTER_NAMES]
+    for proc in procs:
+        proc.wait()
+
+    print("Configuring hosts")
+    procs = [run_docker_cmd(h, [f"./configure-scripts/setup-{h}.sh"]) for h in HOST_NAMES]
+    for proc in procs:
+        proc.wait()
+
+
+def stop(_):
     print("stop")
     proc = subprocess.Popen(["docker", "compose", "down"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
     proc.wait()
@@ -21,7 +50,8 @@ def stop(args):
 
 
 def route(args):
-    print(f"router = {args}")
+    dir = args.direction
+    print(f"router = {dir}")
     pass
 
 
