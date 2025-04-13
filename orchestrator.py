@@ -4,22 +4,29 @@ import sys
 
 def start(args):
     print("start")
+    proc = subprocess.Popen(["docker", "compose", "up"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
+    proc.wait()
 
 
 def configure(args):
     print("conf")
+    pass
 
 
 def stop(args):
     print("stop")
+    proc = subprocess.Popen(["docker", "compose", "down"], stdin=sys.stdin, stdout=sys.stdout, stderr=sys.stderr, text=True)
+    proc.wait()
 
 
 
 def route(args):
     print(f"router = {args}")
+    pass
 
 
 # MAIN ------------------------
+
 # Set up CLI interface
 parser = argparse.ArgumentParser(
     description="Simple network orchestrator used to move traffic between router paths")
