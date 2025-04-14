@@ -12,6 +12,10 @@ All Docker containers use the same Dockerfile, which is simple and closely based
 
 The `docker-compose.yml` file is also based on the example provided but has been extended to include more routers and network links.
 
+## Demo Video
+
+Demo video can be found [here](https://youtu.be/1glEs0QcUNg).
+
 ## Prerequisites
 
 - Docker and Docker Compose installed
