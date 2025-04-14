@@ -20,6 +20,8 @@ The `docker-compose.yml` file is also based on the example provided but has been
 
 ## Setup Instructions
 
+Note: all commands must be run as root. This is easiest done by running `sudo bash` beforehand.
+
 1. Run the installation script provided by the instructors.
 
 2. Start the containers using the orchestrator:
